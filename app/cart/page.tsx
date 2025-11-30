@@ -8,7 +8,7 @@ import { Trash2, ShoppingBag, MessageCircle } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 
 // WhatsApp Phone Number Configuration
-const WA_PHONE_NUMBER = "05362963962";
+const WA_PHONE_NUMBER = "905362963962";
 
 export default function CartPage() {
   const cart = useBuilderStore((state) => state.cart);
@@ -171,13 +171,13 @@ export default function CartPage() {
 
               <button
                 onClick={handleCheckout}
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2 mb-4"
               >
                 <MessageCircle className="h-5 w-5" />
                 Siparişi WhatsApp ile Tamamla
               </button>
 
-              <Link href="/builder" className="block mt-4">
+              <Link href="/builder">
                 <Button variant="outline" size="lg" className="w-full">
                   Continue Shopping
                 </Button>
