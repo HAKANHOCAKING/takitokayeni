@@ -6,22 +6,22 @@ export const chains: Chain[] = [
     id: "chain-gold-001",
     name: "Gold Chain",
     image: "/chain-gold.png",
-    price: 15,
-    maxCharms: 5,
+    price: 250,
+    maxCharms: 50,
   },
   {
     id: "chain-silver-001",
     name: "Silver Chain",
     image: "/chain-silver.png",
-    price: 15,
-    maxCharms: 5,
+    price: 250,
+    maxCharms: 50,
   },
   {
     id: "chain-rose-gold-001",
     name: "Rose Gold",
     image: "/rose-gold.png",
-    price: 15,
-    maxCharms: 5,
+    price: 250,
+    maxCharms: 50,
   },
 ];
 
@@ -32,21 +32,21 @@ export const charms: Charm[] = [
     name: "Cherry",
     image: "/charm-cherry.png",
     category: "Foodie",
-    price: 5,
+    price: 50,
   },
   {
     id: "charm-bow",
     name: "Bow",
     image: "/charm-bow.png",
     category: "Coquette",
-    price: 5,
+    price: 50,
   },
   {
     id: "charm-cowboy-boot",
     name: "Cowboy Boot",
     image: "/charm-boot.png",
     category: "Symbols",
-    price: 5,
+    price: 50,
   },
 ];
 
