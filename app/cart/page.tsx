@@ -8,7 +8,7 @@ import { Trash2, ShoppingBag, MessageCircle } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
 
 // WhatsApp Phone Number Configuration
-const WA_PHONE_NUMBER = "05362963962"; // Placeholder
+const WA_PHONE_NUMBER = "05362963962";
 
 export default function CartPage() {
   const cart = useBuilderStore((state) => state.cart);
@@ -17,26 +17,23 @@ export default function CartPage() {
   const grandTotal = cart.reduce((sum, item) => sum + item.totalPrice, 0);
 
   const handleCheckout = () => {
-    // Build order details list
-    const orderDetails = cart
-      .map((item) => {
-        const charmNames =
-          item.charms.length > 0
-            ? item.charms.map((charm) => charm.name).join(", ")
-            : "Charm eklenmedi";
-        return `• ${item.chain.name} - Charms: ${charmNames}`;
-      })
-      .join("\n");
+    // Build order message for each item
+    const orderMessages = cart.map((item) => {
+      const charmNames =
+        item.charms.length > 0
+          ? item.charms.map((charm) => charm.name).join(", ")
+          : "Charm eklenmedi";
+      return `${item.chain.name} + ${charmNames}`;
+    });
+
+    const orderDetails = orderMessages.join("\n");
 
     // Format the Turkish message
-    const message = `Merhaba! Web sitenizden bir tasarım yaptım ve sipariş vermek istiyorum.
+    const message = `Merhaba! Web sitenizden sipariş vermek istiyorum.
 
-📦 *Sipariş Detayı:*
-${orderDetails}
+📦 Sipariş: ${orderDetails}
 
-💰 *Toplam Tutar:* ${grandTotal.toFixed(2)} TL
-
-Ödeme ve kargo için yardımcı olur musunuz?`;
+💰 Tutar: ${grandTotal.toFixed(2)} TL`;
 
     // Encode the message
     const encodedMessage = encodeURIComponent(message);
@@ -154,19 +151,17 @@ ${orderDetails}
               <h2 className="font-display text-2xl font-semibold mb-6 text-gray-900">
                 Order Summary
               </h2>
-              
+
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-gray-600">
-                  <span>Subtotal ({cart.length} {cart.length === 1 ? "item" : "items"})</span>
+                  <span>
+                    Subtotal ({cart.length} {cart.length === 1 ? "item" : "items"})
+                  </span>
                   <span>{formatPrice(grandTotal)}</span>
-                </div>
-                <div className="flex justify-between text-gray-600">
-                  <span>Shipping</span>
-                  <span className="text-gray-400">Calculated at checkout</span>
                 </div>
                 <div className="border-t border-gray-200 pt-4">
                   <div className="flex justify-between items-center">
-                    <span className="font-semibold text-gray-900">Grand Total</span>
+                    <span className="font-semibold text-gray-900">Total</span>
                     <span className="font-display text-2xl font-bold text-gray-900">
                       {formatPrice(grandTotal)}
                     </span>
@@ -174,14 +169,13 @@ ${orderDetails}
                 </div>
               </div>
 
-              <Button
-                size="lg"
-                className="w-full bg-green-600 hover:bg-green-700 text-white"
+              <button
                 onClick={handleCheckout}
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
               >
-                <MessageCircle className="h-5 w-5 mr-2" />
+                <MessageCircle className="h-5 w-5" />
                 Siparişi WhatsApp ile Tamamla
-              </Button>
+              </button>
 
               <Link href="/builder" className="block mt-4">
                 <Button variant="outline" size="lg" className="w-full">
@@ -195,4 +189,3 @@ ${orderDetails}
     </div>
   );
 }
-
