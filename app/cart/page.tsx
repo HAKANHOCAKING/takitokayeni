@@ -4,14 +4,49 @@ import Link from "next/link";
 import { useBuilderStore } from "@/lib/store/builderStore";
 import { Button } from "@/components/atoms/Button";
 import { Card, CardContent } from "@/components/molecules/Card";
-import { Trash2, ShoppingBag } from "lucide-react";
+import { Trash2, ShoppingBag, MessageCircle } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
+
+// WhatsApp Phone Number Configuration
+const WA_PHONE_NUMBER = "05362963962"; // Placeholder
 
 export default function CartPage() {
   const cart = useBuilderStore((state) => state.cart);
   const removeFromCart = useBuilderStore((state) => state.removeFromCart);
 
   const grandTotal = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+
+  const handleCheckout = () => {
+    // Build order details list
+    const orderDetails = cart
+      .map((item) => {
+        const charmNames =
+          item.charms.length > 0
+            ? item.charms.map((charm) => charm.name).join(", ")
+            : "Charm eklenmedi";
+        return `• ${item.chain.name} - Charms: ${charmNames}`;
+      })
+      .join("\n");
+
+    // Format the Turkish message
+    const message = `Merhaba! Web sitenizden bir tasarım yaptım ve sipariş vermek istiyorum.
+
+📦 *Sipariş Detayı:*
+${orderDetails}
+
+💰 *Toplam Tutar:* ${grandTotal.toFixed(2)} TL
+
+Ödeme ve kargo için yardımcı olur musunuz?`;
+
+    // Encode the message
+    const encodedMessage = encodeURIComponent(message);
+
+    // Open WhatsApp in a new tab
+    window.open(
+      `https://wa.me/${WA_PHONE_NUMBER}?text=${encodedMessage}`,
+      "_blank"
+    );
+  };
 
   if (cart.length === 0) {
     return (
@@ -140,15 +175,12 @@ export default function CartPage() {
               </div>
 
               <Button
-                variant="primary"
                 size="lg"
-                className="w-full"
-                onClick={() => {
-                  // Dummy checkout - in production, this would navigate to checkout page
-                  alert("Checkout functionality coming soon!");
-                }}
+                className="w-full bg-green-600 hover:bg-green-700 text-white"
+                onClick={handleCheckout}
               >
-                Proceed to Checkout
+                <MessageCircle className="h-5 w-5 mr-2" />
+                Siparişi WhatsApp ile Tamamla
               </Button>
 
               <Link href="/builder" className="block mt-4">
