@@ -17,6 +17,9 @@ export default function CartPage() {
   const grandTotal = cart.reduce((sum, item) => sum + item.totalPrice, 0);
 
   const handleCheckout = () => {
+    // Sanitize phone number - remove all non-numeric characters
+    const cleanPhoneNumber = WA_PHONE_NUMBER.replace(/\D/g, "");
+
     // Build order message for each item
     const orderMessages = cart.map((item) => {
       const charmNames =
@@ -38,11 +41,11 @@ export default function CartPage() {
     // Encode the message
     const encodedMessage = encodeURIComponent(message);
 
+    // Construct WhatsApp API URL
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${cleanPhoneNumber}&text=${encodedMessage}`;
+
     // Open WhatsApp in a new tab
-    window.open(
-      `https://wa.me/${WA_PHONE_NUMBER}?text=${encodedMessage}`,
-      "_blank"
-    );
+    window.open(whatsappUrl, "_blank");
   };
 
   if (cart.length === 0) {
